@@ -8,13 +8,12 @@ const server = new ApolloServer({
 		let authToken = null;
 		let currentUser = null;
 
-
 		authToken = req.headers.token;
 
 		if(authToken) {
 			currentUser = getUser(authToken);
 		} else {
-			console.log("Unable to authenticate");
+			// console.log("Unable to authenticate");
 		}
 		
 		return {
