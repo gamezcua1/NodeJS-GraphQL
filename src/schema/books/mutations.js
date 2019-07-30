@@ -1,9 +1,10 @@
 import Book from '../../models/book';
-import books from './data';
+
+import { isLogged } from '../../helpers/auth';
 
 const Mutation = {
 	Mutation: {
-		async createBook(parent, args) {
+		createBook: isLogged(async (parent, args) => {
 			const { title, authorId, year } = args;
 			const newBook = await Book.create({
 				title,
@@ -11,7 +12,7 @@ const Mutation = {
 				year
 			});
 			return newBook;
-		}
+		})
 	}
 };
 

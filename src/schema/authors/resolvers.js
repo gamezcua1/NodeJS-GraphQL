@@ -1,19 +1,20 @@
 import Author from '../../models/author';
 import Book from '../../models/book';
+import { isLogged } from '../../helpers/auth';
 
 const Resolvers = {
 	Query: {
-		async authors() {
+		authors: isLogged(async () => {
 			const authors = await Author.findAll();
 			return authors;
-		},
-		async author(_, { id }) {
+		}),
+		author: isLogged(async (_, { id }) => {
 			const author = await Author.findByPk(id);
 			return author;
-		}
+		})
 	},
 	Author: {
-		async books(parent, _){
+		async books(parent, _) {
 			return await parent.getBooks();
 		}
 	}

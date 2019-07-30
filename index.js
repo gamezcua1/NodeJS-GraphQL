@@ -1,23 +1,25 @@
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer } from 'apollo-server';
 import { types, resolvers } from './src/index';
-import express from 'express';
 import User from './src/models/user';
 
-require('dotenv').config();
-const app = express();
+import './src/models/associations';
 
 const server = new ApolloServer({
 	typeDefs: types,
 	resolvers: resolvers,
 	context: async ({ req }) => {
 		const token = req.headers.authorization;
-		const user = await User.getUser(token);
-		return { user };
+
+		if (token) {
+			const user = await User.getUser(token);
+			return { user };
+		}
 	}
 });
 
-server.applyMiddleware({ app });
+server.listen().then(({ url }) => {
+	console.log(`🚀  Server ready at ${url}`);
+});
 
-app.listen({ port: 4000 }, () => console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`));
 
-import "./src/models/associations";
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcm5hbWUiOiJyb290IiwiaWF0IjoxNTY0NTIxMzQxLCJleHAiOjE1OTYwNzg5NDF9.a3M2zfFLM9Kiy3w8E6Fh0_yrZtKfhvkOUnfPKX7lucw

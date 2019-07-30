@@ -2,24 +2,25 @@ import { Op } from 'sequelize';
 
 import Book from '../../models/book';
 import Author from '../../models/author';
+import { isLogged } from '../../helpers/auth';
 
 const resolvers = {
 	Query: {
-		async books(parent, args) {
+		books: isLogged(async (parent, args) => {
 			const books = await Book.findAll();
 			return books;
-		},
-		async book(parent, { id }) {
+		}),
+		book: isLogged(async (parent, { id }) => {
 			const book = await Book.findByPk(id);
 			return JSON.stringify(book);
-		},
-		async bookByName(parent, { title }) {
+		}),
+		bookByName: isLogged(async (parent, { title }) => {
 			return await Author.findAll({
 				where: {
 					[Op.like]: title
 				}
 			});
-		}
+		})
 	},
 	Book: {
 		async author(parent, args) {
