@@ -1,3 +1,17 @@
+Sequelize
+  Models
+  Associations
+  Migrations
+
+Graphql
+  Schemas
+  Scalars
+  Resolvers
+  Mutations
+  Login
+  SignIn
+  Authentication
+
 
 .
 ├── package.json
