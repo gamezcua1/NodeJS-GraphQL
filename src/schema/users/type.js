@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server';
+import { gql, SchemaDirectiveVisitor } from 'apollo-server';
 
 const UserSchema = gql`
   type User {
@@ -18,7 +18,8 @@ const UserSchema = gql`
   }
 
   extend type Mutation {
-    signup(username: String!, password: String!, name: String!): User
+    login(username: String!, password: String!): String
+    signup(username: String!, password: String!, name: String!): String
   }
 `;
 

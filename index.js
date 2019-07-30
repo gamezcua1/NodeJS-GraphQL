@@ -1,28 +1,21 @@
-import { ApolloServer } from 'apollo-server';
+import { ApolloServer } from 'apollo-server-express';
 import { types, resolvers } from './src/index';
+import express from 'express';
+import User from './src/models/user';
+
+require('dotenv').config();
+const app = express();
 
 const server = new ApolloServer({
 	typeDefs: types,
 	resolvers: resolvers,
-	context: ({ req }) => {
-		let authToken = null;
-		let currentUser = null;
-
-		authToken = req.headers.token;
-
-		if(authToken) {
-			currentUser = getUser(authToken);
-		} else {
-			// console.log("Unable to authenticate");
-		}
-		
-		return {
-			authToken,
-			currentUser
-		}
+	context: async ({ req }) => {
+		const token = req.headers.authorization;
+		const user = await User.getUser(token);
+		return { user };
 	}
 });
 
-server.listen().then(({ url }) => {
-	console.log(`🚀 Server ready at ${url}`);
-});
+server.applyMiddleware({ app });
+
+app.listen({ port: 4000 }, () => console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`));

@@ -1,4 +1,5 @@
 /.idea
+*.rdb
 # dependencies
 /node_modules
 /.pnp
