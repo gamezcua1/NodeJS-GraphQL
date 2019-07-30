@@ -1,19 +1,16 @@
-import { DataTypes } from "sequelize";
-import sequelize from './db'
+import { DataTypes, Model, Sequelize } from 'sequelize';
+import sequelize from './db';
 
-const Book = sequelize.define(
-	'Book',
+class Book extends Model {}
+Book.init(
 	{
 		title: DataTypes.STRING,
 		year: DataTypes.INTEGER,
 		authorId: DataTypes.INTEGER
 	},
-	{}
+	{
+		sequelize
+	}
 );
-
-Book.associate = function(models) {
-	Book.hasOne(models.Author);
-	Book.belongsToOne(models.Author)
-};
 
 export default Book;

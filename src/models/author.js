@@ -1,21 +1,16 @@
-import { DataTypes } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import sequelize from './db';
-import Books from './book';
 
-const Author = sequelize.define(
-	'Author',
+class Author extends Model {}
+
+Author.init(
 	{
 		name: DataTypes.STRING,
 		city: DataTypes.STRING
 	},
-	{}
+	{
+		sequelize
+	}
 );
-
-// Author.hasMany(Books, {
-// 	primaryKey: 'authorId'
-// });
-// Author.belongsTo(Books, {
-// 	primaryKey: 'authorId'
-// });
 
 export default Author;

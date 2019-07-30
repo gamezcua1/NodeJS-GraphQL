@@ -14,12 +14,7 @@ const Resolvers = {
 	},
 	Author: {
 		async books(parent, _){
-			const books = await Book.findAll({
-				where: {
-					authorId: parent.id
-				}
-			});
-			return books;
+			return await parent.getBooks();
 		}
 	}
 };

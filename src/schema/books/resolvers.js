@@ -23,7 +23,7 @@ const resolvers = {
 	},
 	Book: {
 		async author(parent, args) {
-			return await Author.findByPk(parent.authorId);
+			return await parent.getAuthor();
 		}
 	}
 };
